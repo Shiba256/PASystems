@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バンド構成図</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0e0e0e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin: 0;
+        }
+        .time-display{
+            display: flex;
+            justify-content: center;
+        }
+        .time-display div{
+            margin-bottom: 20px;
+            font-size: 24px;
+            width: 100px;
+            margin-bottom: 20px;
+            background-color: #222;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
+            border: 2px solid #444;
+            color: #00ccff;
+        }
+        .time-display #current-time{
+            margin-left: 20px;
+        }
+        .container {
+            text-align: center;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 15px rgba(0, 153, 255, 0.5);
+            border: 2px solid #333;
+        }
+        .drop-zone {
+            border: 2px dashed #00ccff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 80%;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+            margin: 0 auto;
+            margin-top: 20px; 
+        }
+        .drop-zone.hover {
+            background-color: #333;
+        }
+        .band-name {
+            padding: 10px;
+            padding-inline: 100px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: bold;
+            background-color: #111;
+            border: 2px solid #444;
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
+            color: #00ccff;
+            font-size: 20px;
+            border-radius: 5px;
+        }
+        .diagram-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .diagram {
+            padding: 20px;
+            border-radius: 10px;
+            background: #222;
+            box-shadow: inset 0 0 10px #333, 0 0 10px rgba(255, 0, 0, 0.7);
+            border: 2px solid #555;
+        }
+        .boxes {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .boxes div {
+            padding: 10px;
+            width: 50px;
+            text-align: center;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 153, 255, 0.5);
+        }
+        .numbers {
+            display: flex;
+            justify-content: space-between;
+        }
+        .numbers div {
+            padding: 10px;
+            width: 50px;
+            text-align: center;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .arrows input{
+            position: relative;
+            padding: 10px;
+            width: 50px;
+            text-align: center;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+            color: #00ccff;
+        }
+        .arrows div{
+            position: relative;
+            padding: 10px;
+            width: 50px;
+            text-align: center;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+            color: #00ccff;
+        }
+        .table-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
+            border: 2px solid #444;
+        }
+        th, td {
+            padding: 10px;
+            border: 2px solid #666;
+        }
+        th {
+            background-color: #222;
+            color: #00ccff;
+        }
+        td a {
+            color: #ff0066;
+            text-decoration: none;
+        }
+        .highlight {
+            background-color: #00ccff;
+            color: #000;
+        }
+        .glow {
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
+            border-color: #00ccff;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        label {
+            display: inline-block;
+            padding: 10px 20px;
+            width: 200px;
+            background-color: #444;
+            color: white;
+            border: 2px solid #555;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="radio"]:checked + label {
+            background-color: #ff5722;
+            box-shadow: 0 0 10px #ff5722;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="band-name" id="band-name">バンド名</div>        
+        <div class="time-display">
+            <div id="start-time"></div>
+            <div id="end-time"></div>
+            <div id="current-time"></div>
+        </div>
+        <div class="diagram-container">
+            <div class="diagram" id="left-diagram">
+                <div class="boxes">
+                    <div id="dr">Dr</div>
+                    <div id="ba">Ba</div>
+                    <div id="mr">Mr</div>
+                    <div id="jc">Jc</div>
+                    <div id="ep">EP</div>
+                    <div id="syn">Syn</div>
+                </div>
+                <div class="numbers">
+                    <div id="num1">1</div>
+                    <div id="num2">2</div>
+                    <div id="num3">3</div>
+                    <div id="num4">4</div>
+                </div>
+            </div>
+            <div class="diagram" id="right-diagram">
+                <div class="arrows">
+                    <div>Ba</div>
+                    <div>Mr</div>
+                    <div>Jc</div>
+                    <div>EP</div>
+                    <div>Syn</div>
+                </div>
+                <div class="arrows">
+                    <input type="text" id="arrow-ba">
+                    <input type="text" id="arrow-mr">
+                    <input type="text" id="arrow-jc">
+                    <input type="text" id="arrow-ep">
+                    <input type="text" id="arrow-syn">
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>曲名</th>
+                        <th>要望</th>
+                    </tr>
+                </thead>
+                <tbody id="song-table-body">
+                    <!-- 曲リストをここに動的に生成 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="drop-zone" id="drop-zone">
+            ここにJSONファイルをドロップしてください
+        </div>
+    </div>
+
+    <script>
+        // JSONファイルを読み込む関数
+        function loadJSON(file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const jsonData = JSON.parse(event.target.result);
+                    applyBandData(jsonData);
+                } catch (error) {
+                    alert('JSONファイルの読み込みに失敗しました。');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ドロップゾーンのイベント設定
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropZone.classList.add('hover');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('hover');
+        });
+        dropZone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropZone.classList.remove('hover');
+
+            const file = event.dataTransfer.files[0];
+            if (file && file.type === "application/json") {
+                loadJSON(file);
+            } else {
+                alert('JSONファイルをドロップしてください。');
+            }
+        });
+
+        // JSONデータを適用する関数
+        function applyBandData(bandData) {
+            // バンド名を設定
+            document.getElementById('band-name').textContent = bandData.name;
+            document.getElementById('start-time').textContent = bandData.start;
+            document.getElementById('end-time').textContent = bandData.end;
+
+            // テーブルの曲リストをクリア
+            const songTableBody = document.getElementById('song-table-body');
+            songTableBody.innerHTML = "";
+
+            // 新しい曲リストを追加
+            bandData.songs.forEach((song, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="radio" name="song" id="song-${index}" value="${index}">
+                        <label for="song-${index}">${song.Title}</label></td>
+                    <td>${song.detail}</td>
+                `;
+                songTableBody.appendChild(row);
+            });
+
+            // 新しいラジオボタンにイベントリスナーを追加
+            document.querySelectorAll('input[name="song"]').forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    applySongSettings(event.target.value, bandData);
+                });
+            });
+        }
+
+        // すべての要素をクリアする関数
+        function clearHighlights() {
+            document.querySelectorAll('.highlight, .glow').forEach(element => {
+                element.classList.remove('highlight', 'glow');
+            });
+        }
+
+        // 曲名に応じた設定を適用する関数
+        function applySongSettings(songIndex, bandData) {
+            clearHighlights(); // まずはすべてクリアする
+
+            const song = bandData.songs[songIndex];
+
+            // ハイライトさせる要素にクラスを追加
+            song.Uses.forEach(part => {
+                const elementId = part.toLowerCase().replace('m1', 'num1').replace('m2', 'num2').replace('m3', 'num3').replace('m4', 'num4');
+                document.getElementById(elementId).classList.add('highlight', 'glow');
+            });
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('current-time').textContent = formattedTime;
+        }
+
+        setInterval(updateTime, 1000); // 1秒ごとに現在時刻を更新
+    </script>
+</body>
+</html>
