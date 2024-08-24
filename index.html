@@ -162,13 +162,13 @@
             color: #ff0066;
             text-decoration: none;
         }
-        .highlight {
-            background-color: #00ccff;
-            color: #000;
+        .diagram .highlight {
+            background-color: #00ccff !important;
+            color: #ffffff !important;
         }
-        .glow {
-            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
-            border-color: #00ccff;
+        .diagram .glow {
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.7) !important;
+            border-color: #00ccff !important;
         }
         input[type="radio"] {
             display: none;
@@ -335,7 +335,7 @@
 
             // ハイライトさせる要素にクラスを追加
             song.Uses.forEach(part => {
-                const elementId = part.toLowerCase().replace('m1', 'num1').replace('m2', 'num2').replace('m3', 'num3').replace('m4', 'num4');
+                const elementId = part.toLowerCase();
                 document.getElementById(elementId).classList.add('highlight', 'glow');
             });
         }
